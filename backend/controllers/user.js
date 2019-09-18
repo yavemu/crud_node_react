@@ -31,9 +31,9 @@ exports.list = function (req, res) {
     try {
         User.find(function (err, user) {
             if (err) {
-                res.json({
-                    error: err
-                })
+                return res.status(400).json({
+                    error: true
+                });
             }
             res.json({
                 user
@@ -48,9 +48,9 @@ exports.details = function (req, res) {
     try {
         User.findById(req.params.id, function (err, user) {
             if (err) {
-                res.json({
-                    error: err
-                })
+                return res.status(400).json({
+                    error: true
+                });
             }
             res.json({
                 user: user
@@ -65,9 +65,9 @@ exports.update = function (req, res) {
     try {
         User.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, user) {
             if (err) {
-                res.json({
-                    error: err
-                })
+                return res.status(400).json({
+                    error: true
+                });
             }
             res.json({
                 message: "User udpated successfully"
@@ -82,9 +82,9 @@ exports.delete = function (req, res) {
     try {
         User.findByIdAndRemove(req.params.id, function (err) {
             if (err) {
-                res.json({
-                    error: err
-                })
+                return res.status(400).json({
+                    error: true
+                });
             }
             res.json({
                 message: "User deleted successfully!"

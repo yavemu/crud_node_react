@@ -34,8 +34,8 @@ const UserNew = (props) => {
 
       axios.post(`${URL_API}/users/create`, user)
         .then(res => {
-          console.log(res);
-          console.log(res.data);
+          ;
+          ;
           props.history.push('/')
         })
     }

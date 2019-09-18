@@ -3,21 +3,31 @@ import axios from 'axios'
 import { URL_API } from './utils'
 import UserList from './UserList'
 
-const User = () => {
+const User = (props) => {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setLoading(true);
+    if (loading) {
       axios.get(`${URL_API}/users/list`)
         .then(response => setUsers(response.data.user)
         )
-    setLoading(false);
+      setLoading(false);
+    }
   }, [users]);
+
+  const deleteUser = (id) => () => {
+    axios.delete(`${URL_API}/users/${id}/delete`, { id })
+      .then(res => {
+        ;
+        setLoading(true)
+        setUsers([])
+      })
+  }
 
   return (
     <Fragment>
-      <UserList loading={loading} users={users}/>
+      <UserList loading={loading} users={users} deleteUser={deleteUser} />
     </Fragment>
   )
 }

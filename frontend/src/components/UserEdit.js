@@ -3,6 +3,7 @@ import axios from 'axios'
 
 import UserForm from './UserForm';
 import { URL_API } from './utils'
+import { Loading } from './Loading';
 
 const UserEdit = (props) => {
   const [name, setName] = useState('')
@@ -16,21 +17,25 @@ const UserEdit = (props) => {
   const { id } = props.match.params;
 
   useEffect(() => {
-    setLoading(true);
-    axios.get(`${URL_API}/users/${id}`)
-      .then(response => setUser(response.data.user)
-      )
-    setLoading(false);
+    if (id) {
+      setLoading(true);
+      axios.get(`${URL_API}/users/${id}`)
+        .then(response => { setUser(response.data.user) })
+        .catch(err => props.history.push('/'))
+      setLoading(false);
+    }
   }, [id]);
 
   useEffect(() => {
-    setLoading(true);
     if (user) {
-      setName(user.name)
-      setLastname(user.lastname)
-      setAge(user.age)
+      setLoading(true);
+      if (user) {
+        setName(user.name)
+        setLastname(user.lastname)
+        setAge(user.age)
+      }
+      setLoading(false);
     }
-    setLoading(false);
   }, [user]);
 
   const onChange = (e) => {
@@ -58,8 +63,8 @@ const UserEdit = (props) => {
 
       axios.put(`${URL_API}/users/${id}/update`, user)
         .then(res => {
-          console.log(res);
-          console.log(res.data);
+          ;
+          ;
           props.history.push('/')
         })
     }
@@ -67,15 +72,17 @@ const UserEdit = (props) => {
   return (
     <Fragment>
       <h1 className='text-center'>EDIT USER</h1>
-      <UserForm
-        onSubmit={onSubmit}
-        onChange={onChange}
-        validationError={validationError}
-        name={name}
-        lastname={lastname}
-        age={age}
-        id={id}
-      />
+      {loading && <Loading/>}
+      {!loading && user &&
+        <UserForm
+          onSubmit={onSubmit}
+          onChange={onChange}
+          validationError={validationError}
+          name={name}
+          lastname={lastname}
+          age={age}
+          id={id}
+        />}
     </Fragment>
   );
 };

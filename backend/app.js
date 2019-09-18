@@ -37,7 +37,7 @@ app.use((err, req, res, next) => {
     res.json({
         error: true,
         statusCode,
-        message: 'Server error',
+        message: 'Not Found',
     });
 });
 

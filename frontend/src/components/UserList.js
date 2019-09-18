@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import {Loading} from './Loading'
 import { Link } from 'react-router-dom'
 
-const UserList = ({ loading, users}) => {
+const UserList = ({ loading, users, deleteUser}) => {
   return (
     <Fragment>
       <div className="row">
@@ -23,9 +23,10 @@ const UserList = ({ loading, users}) => {
                         <b>Name:</b> {item.name} {item.lastname} <small>{item.age} years old</small>
                       </div>
                       <div className="col-md-4 d-flex justify-content-end">
-                        <Link to={`/user/edit/${item._id}`} className="btn btn-success d-block d-md-inline-block">
+                        <Link to={`/user/edit/${item._id}`} className="mx-1 btn btn-success d-block d-md-inline-block">
                           Edit
                         </Link>
+                        <button className="mx-1 btn btn-danger d-block d-md-inline-block" onClick={deleteUser(item._id)}>Delete</button>
                       </div>
                     </div>
                   </li>
